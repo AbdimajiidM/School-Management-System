@@ -10,21 +10,17 @@ const classSchema = mongoose.Schema({
     unique: true,
   },
   stage: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Stage",
     required: trashCheckFn,
-    enum: ["primary", "secondary", "pre-school"],
   },
   shift: {
     type: String,
-    required:trashCheckFn,
+    // required:trashCheckFn,
   },
   monthlyFee: {
     type: Number,
-    required: trashCheckFn,
-  },
-  status: {
-    type: String,
-    default: "Trashed",
+    // required: trashCheckFn,
   },
   teachers: [
     {

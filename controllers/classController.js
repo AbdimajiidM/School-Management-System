@@ -1,5 +1,7 @@
 const catchAsync = require("./../utils/catchAsync");
 const Class = require("../models/classModel");
+const defaultClasses = require("../utils/default_classes");
+const Stage = require("../models/stageModel");
 const appError = require("../utils/appError");
 
 exports.getAllClasses = catchAsync(async (req, res, next) => {
@@ -34,7 +36,6 @@ exports.createClass = catchAsync(async (req, res, next) => {
 });
 
 exports.updateClass = catchAsync(async (req, res, next) => {
-  
   const _class = await Class.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     // runValidators: true,
@@ -63,3 +64,5 @@ exports.deleteClass = catchAsync(async (req, res, next) => {
     data: null,
   });
 });
+
+

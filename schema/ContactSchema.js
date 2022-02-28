@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const contactSchema = new mongoose.Schema({
-  user_type: {
-    type: String,
-    required: true,
-  },
   email: {
     type: String,
     unique: true,
