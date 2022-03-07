@@ -16,7 +16,6 @@ router
   .delete(teacherController.deleteTeacher);
 
 router.route("/trash/:id").post(teacherController.trashTeacher);
-router.route("/:teacherId").post(teacherController.assingTeacherToClasses);
 router.route("/removeTeacherFromClasses/:id").post(teacherController.removeTeacherFromClassess);
 
 module.exports = router;
