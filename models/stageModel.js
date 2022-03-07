@@ -14,6 +14,6 @@ const stageSchema = new mongoose.Schema({
   ],
 });
 
-const Stage = mongoose.model("stage", stageSchema);
+const Stage = mongoose.model("Stage", stageSchema);
 
 module.exports = Stage;

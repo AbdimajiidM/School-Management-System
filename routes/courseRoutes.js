@@ -15,6 +15,6 @@ router
   .patch(courseController.updateCourse)
   .delete(courseController.deleteCours);
 
-
+  router.route("/:courseId/:stageId").post(courseController.assignCourseToStage);
 
 module.exports = router;

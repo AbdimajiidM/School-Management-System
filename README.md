@@ -31,3 +31,10 @@
         * /:id - Get Course **GET**
         * /:id - Update Course **PATCH**
         * /:id - Delete Course **DELETE**
+        * /:courseId/:stageId - Assign course to Stage **POST**
+    * /stages - Stage Management related routes
+        * / - Get All Stages **GET**
+        * / - Craete Stage **POST**
+        * /:id - Get Stage **GET**
+        * /:id - Update Stage **PATCH**
+        * /:id - Delete Stage **DELETE**
