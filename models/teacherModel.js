@@ -32,12 +32,18 @@ const teacherSchema = mongoose.Schema({
   Degree: {
     type: String,
   },
-  subjects: {
-    type: Array,
-  },
-  classses: {
-    type: Array,
-  },
+  subjects: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course",
+    }
+  ],
+  classes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
+    }
+  ],
 });
 
 teacherSchema.pre("save", async function (next) {
