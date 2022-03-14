@@ -9,9 +9,7 @@ const courseSchema = new mongoose.Schema({
   stage: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Stage",
-    // type: mongoose.Schema.Types.ObjectId,
-    // ref: "Stage",
-    // required: true,
+    required: true,
   },
   teachers: [
     {

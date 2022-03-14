@@ -47,7 +47,7 @@ const teacherSchema = mongoose.Schema({
 });
 
 teacherSchema.pre("save", async function (next) {
-  //sorting students
+  //sorting teachers
   const teachers = await Teacher.find({}).sort([["teacherId", -1]]);
 
   if (teachers.length > 0) {

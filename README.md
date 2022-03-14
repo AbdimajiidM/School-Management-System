@@ -38,3 +38,21 @@
         * /:id - Get Stage **GET**
         * /:id - Update Stage **PATCH**
         * /:id - Delete Stage **DELETE**
+    * /studnetCharges - studnet Charges Management related routes
+        * / - Get All Charges **GET**
+        * / - Craete Charge **POST**
+        * /:id - Get Charge **GET**
+        * /:id - Update Charge **PATCH**
+        * /:id - Delete Charge **DELETE**
+    * /transactions - Transaction Management related routes
+        * / - Get All Transactions **GET**
+        * / - Craete Transaction **POST**
+        * /:id - Get Transaction **GET**
+        * /:id - Update Transaction **PATCH**
+        * /:id - Delete Transaction **DELETE**
+        * /studentTransactions/:id - Get Student Transactions **GET**
+        * /studentTransactions/:id - Get Student Transactions **GET**
+        * /studentTransactions/:id/:startDate/:endDate - Get Student Transactions By Date **GET**
+        * /studentPaymentTransactions/:id - Get Student Payment Transactions **GET**
+        * /studentChargeTransactions/:id - Get Student Charge Transactions **GET**
+        * /getTransaction/:transactionNumber - Get Transaction By Transaction Number **GET**

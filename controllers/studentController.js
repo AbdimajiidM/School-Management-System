@@ -43,7 +43,7 @@ exports.updateStudent = catchAsync(async (req, res, next) => {
   });
 
   if (!student) {
-    return next(new AppError("no tour found with that ID", 404));
+    return next(new appError("no tour found with that ID", 404));
   }
 
   res.status(200).json({

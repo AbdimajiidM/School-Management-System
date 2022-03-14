@@ -18,9 +18,9 @@ const classSchema = mongoose.Schema({
     type: String,
     // required:trashCheckFn,
   },
-  monthlyFee: {
+  fee: {
     type: Number,
-    // required: trashCheckFn,
+    required: trashCheckFn,
   },
   teachers: [
     {

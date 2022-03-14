@@ -33,9 +33,22 @@ const studentSchema = ContactSchema.add({
     type: String,
     required: true,
   },
+  monthleFeePaid: {
+    type: Boolean,
+    default: false,
+  },
   contact: {
     type: String,
   }
+});
+
+// Create a virtual property `balance` that's computed from `credit` and `debit`.
+studentSchema.virtual('balance').get(function() {
+  return this.credit - this.debit;
+});
+
+studentSchema.set('toJSON', {
+  virtuals: true
 });
 
 studentSchema.pre("save", async function (next) {

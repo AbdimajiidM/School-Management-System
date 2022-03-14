@@ -4,6 +4,7 @@ const Course = require("../models/courseModel");
 const Class = require("../models/classModel");
 const defatulCourses = require("./default_courses");
 const defaultClasses = require("./default_classes");
+const StudentCharge = require("../models/studentChargeModel");
 
 createDefaultStages = catchAsync(async () => {
   const stages = await Stage.find();
@@ -19,8 +20,8 @@ createDefaultStages = catchAsync(async () => {
     });
 
     console.log("Default Stages Sucessfully Created!");
-    createDefaultCourses();
   }
+  createDefaultCourses();
 });
 
 createDefaultCourses = catchAsync(async () => {
@@ -68,8 +69,9 @@ createDefaultCourses = catchAsync(async () => {
     }
 
      console.log("Default Courses Sucessfully Created!");
-     createDefaultClasses();
   }
+
+  createDefaultClasses();
 });
 
 createDefaultClasses = catchAsync(async () => {
@@ -81,6 +83,7 @@ createDefaultClasses = catchAsync(async () => {
       await Class.create({
         name: defaultClasses.primary[index],
         stage: stage._id,
+        fee: 12
       });
     }
     // create secondary classes
@@ -89,12 +92,18 @@ createDefaultClasses = catchAsync(async () => {
       await Class.create({
         name: defaultClasses.secondary[index],
         stage: stage._id,
+        fee: 18
       });
     }
 
      console.log("Default Classes Sucessfully Created!");
   }
 });
+
+createStudentCharge = catchAsync(async (req, res, next) => {
+  const studentCharges = await mongoose.find();
+  console.log(studentCharges)
+})
 
 const createDefaulties = catchAsync(async () => {
   createDefaultStages();
