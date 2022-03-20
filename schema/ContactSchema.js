@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const contactSchema = new mongoose.Schema({
+const contactSchema = {
   email: {
     type: String,
     unique: true,
@@ -49,6 +49,6 @@ const contactSchema = new mongoose.Schema({
     enum: ['Active', 'Inactive'],
     default: 'Active'
   },
-}, {timestamps: true});
+};
 
 module.exports = contactSchema;

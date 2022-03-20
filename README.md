@@ -38,7 +38,7 @@
         * /:id - Get Stage **GET**
         * /:id - Update Stage **PATCH**
         * /:id - Delete Stage **DELETE**
-    * /studnetCharges - studnet Charges Management related routes
+    * /charges Schedule - Charges Schedule Management related routes
         * / - Get All Charges **GET**
         * / - Craete Charge **POST**
         * /:id - Get Charge **GET**
@@ -56,3 +56,9 @@
         * /studentPaymentTransactions/:id - Get Student Payment Transactions **GET**
         * /studentChargeTransactions/:id - Get Student Charge Transactions **GET**
         * /getTransaction/:transactionNumber - Get Transaction By Transaction Number **GET**
+    * /invoices - Invoice Management related routes
+        * / - Get All Invoices **GET**
+        * / - Craete Invoice **POST**
+        * /:id - Get Invoice **GET**
+        * /:id - Update Invoice **PATCH**
+        * /:id - Delete Invoice **DELETE**

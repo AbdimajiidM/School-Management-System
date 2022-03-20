@@ -4,7 +4,6 @@ const Course = require("../models/courseModel");
 const Class = require("../models/classModel");
 const defatulCourses = require("./default_courses");
 const defaultClasses = require("./default_classes");
-const StudentCharge = require("../models/studentChargeModel");
 
 createDefaultStages = catchAsync(async () => {
   const stages = await Stage.find();

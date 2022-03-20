@@ -11,8 +11,7 @@ router
 router
   .route("/:id")
   .get(transactionController.getTransaction)
-  .patch(transactionController.updateTransaction)
-  .delete(transactionController.deleteTransaction);
+  .delete(transactionController.cancelTransaction);
 
 router
   .route("/studentTransactions/:id")

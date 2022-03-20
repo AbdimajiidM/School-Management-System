@@ -19,24 +19,25 @@ const transactionSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    transactionNumber : {
+    transactionNumber: {
         type: Number,
         default: 1,
     },
     refrenceId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: "Student"
     }
 });
 
 transactionSchema.pre("save", async function (next) {
     //sorting teachers
     const transactions = await Transaction.find({}).sort([["transactionNumber", -1]]);
-  
+
     if (transactions.length > 0) {
-      this.transactionNumber = transactions[0].transactionNumber + 1;
+        this.transactionNumber = transactions[0].transactionNumber + 1;
     }
     next();
-  });
+});
 
 const Transaction = mongoose.model("Transaction", transactionSchema);
 

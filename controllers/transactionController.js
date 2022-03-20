@@ -1,10 +1,11 @@
 const catchAsync = require("../utils/catchAsync");
 const Transaction = require("../models/transactionModel");
 const createTransactionFn = require("./functions/createTransactionFn")
+const cancelTransactionFn = require("./functions/cancelTransactinFn")
 const appError = require("../utils/appError");
 
 exports.getAllTransaction = catchAsync(async (req, res, next) => {
-  const transactions = await Transaction.find();
+  const transactions = await Transaction.find().populate('refrenceId');
   res.status(200).json({
     message: "Sucess",
     count: transactions.length,
@@ -44,37 +45,14 @@ exports.createTransaction = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.updateTransaction = catchAsync(async (req, res, next) => {
-  const transaction = await Transaction.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    {
-      new: true,
-      // runValidators: true,
-    }
-  );
 
-  if (!transaction) {
-    return next(new appError("no transaction found with that ID", 404));
-  }
+exports.cancelTransaction = catchAsync(async (req, res, next) => {
+  const transactionId = req.params.id;
+  const message = await cancelTransactionFn(transactionId);
 
-  res.status(200).json({
-    status: "success",
-    data: {
-      transaction,
-    },
-  });
-});
-
-exports.deleteTransaction = catchAsync(async (req, res, next) => {
-  const transaction = await Transaction.findByIdAndDelete(req.params.id);
-
-  if (!transaction) {
-    return next(new appError("no transaction found with that ID", 404));
-  }
   res.status(204).json({
     status: "success",
-    data: null,
+    data: message,
   });
 });
 
