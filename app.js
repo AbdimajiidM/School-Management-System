@@ -12,6 +12,8 @@ const teacherRoutes = require('./routes/teacherRoutes');
 const transactionRoutes = require('./routes/transactionRoutes')
 const invoiceRoutes = require("./routes/invoiceRoutes")
 const chargeScheduleRoutes = require('./routes/chargeScheduleRoutes');
+const backupRoutes = require('./routes/backupRoutes')
+const backupJobRoutes = require('./routes/backupJobRoutes')
 
 const app = express();
 
@@ -33,6 +35,8 @@ app.use('/api/v1/stages', stageRoutes);
 app.use('/api/v1/transactions', transactionRoutes);
 app.use('/api/v1/invoices', invoiceRoutes);
 app.use('/api/v1/chargesSchedule', chargeScheduleRoutes);
+app.use('/api/v1/backup', backupRoutes);
+app.use('/api/v1/backupJobs', backupJobRoutes)
 
 app.all('*', (req, res, next) => {
   next(new AppError(`cant't found ${req.originalUrl} on this server`, 404));
