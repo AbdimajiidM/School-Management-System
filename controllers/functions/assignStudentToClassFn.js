@@ -10,7 +10,7 @@ async function assignStudentToClassFn(studentId, classId) {
   const formerClass = await Class.findById(student.class);
 
   // remove the student from the former Class
-  await removeStudentFromFormerClass(classId, formerClass);
+  await removeStudentFromFormerClass(classId, formerClass, studentId);
 
   // assign student to class
   await Student.updateOne({ _id: studentId }, { $set: { class: classId } });

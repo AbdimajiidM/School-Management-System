@@ -1,6 +1,6 @@
 const Class = require("../../models/classModel");
 
-async function removeStudentFromFormerClass(classId,formerClass) {
+async function removeStudentFromFormerClass(classId,formerClass,studentId) {
   if (formerClass) {
     if (formerClass._id == classId) {
       return `${student.first_name} is allready in ${formerClass.name}`;

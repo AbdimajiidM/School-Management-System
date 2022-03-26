@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const createDefaulties = require('./utils/createDefaulties')
-const chargeFeeToStudentFn = require('./utils/chargeFeeToStudent')
+const chargeFeeToStudentFn = require('./utils/chargeFeeToStudent');
 dotenv.config({ path: "./config.env" });
 
 const app = require("./app");
@@ -14,8 +14,9 @@ mongoose
   })
   .then((dbs)=>{
     console.log("DB connection successful!");
-    // createDefaulties();
-    // chargeFeeToStudentFn();
+    createDefaulties();
+    chargeFeeToStudentFn();
+
   });
 
 const port = process.env.PORT || 3000;

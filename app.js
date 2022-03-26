@@ -10,10 +10,10 @@ const courseRoutes = require('./routes/courseRoutes');
 const stageRoutes = require('./routes/stageRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
 const transactionRoutes = require('./routes/transactionRoutes')
-const invoiceRoutes = require("./routes/invoiceRoutes")
+const voucherRoutes = require("./routes/voucherRoutes")
 const chargeScheduleRoutes = require('./routes/chargeScheduleRoutes');
-const backupRoutes = require('./routes/backupRoutes')
-const backupJobRoutes = require('./routes/backupJobRoutes')
+const userRoutes = require("./routes/userRoutes");
+const markRoutes = require("./routes/markRoutes");
 
 const app = express();
 
@@ -33,11 +33,10 @@ app.use('/api/v1/courses', courseRoutes);
 app.use('/api/v1/teachers', teacherRoutes);
 app.use('/api/v1/stages', stageRoutes);
 app.use('/api/v1/transactions', transactionRoutes);
-app.use('/api/v1/invoices', invoiceRoutes);
+app.use('/api/v1/vouchers', voucherRoutes);
 app.use('/api/v1/chargesSchedule', chargeScheduleRoutes);
-app.use('/api/v1/backup', backupRoutes);
-app.use('/api/v1/backupJobs', backupJobRoutes)
-
+app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/marks', markRoutes)
 app.all('*', (req, res, next) => {
   next(new AppError(`cant't found ${req.originalUrl} on this server`, 404));
 });

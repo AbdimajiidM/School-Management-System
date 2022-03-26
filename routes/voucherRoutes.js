@@ -1,13 +1,13 @@
 const express = require('express');
-const invoiceController = require('./../controllers/invoiceController');
+const voucherController = require('./../controllers/voucherController');
 
 const router = express.Router();
 
 
 router
   .route('/')
-  .get(invoiceController.getAllInvoices)
-  .post(invoiceController.createInvoice);
+  .get(voucherController.getAllVouchers)
+  .post(voucherController.createVoucher);
 
 // router
 //   .route('/:id')

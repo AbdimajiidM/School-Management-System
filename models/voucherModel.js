@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 
-const inoviceSchema = mongoose.Schema({
-    inoviceNumber: {
+const voucherSchema = mongoose.Schema({
+    voucherNumber: {
         type: Number,
         default: 1,
         unique: true
     },
-    InvoiceDate: {
+    voucherDate: {
         type: Date,
         default: new Date(),
     },
-    invoiceAmount: {
+    voucherAmount: {
         type: Number,
         required: true
     },
@@ -30,17 +30,17 @@ const inoviceSchema = mongoose.Schema({
 
 });
 
-inoviceSchema.pre("save", async function (next) {
+voucherSchema.pre("save", async function (next) {
     //sorting teachers
-    const inovices = await Invoice.find({}).sort([["inoviceNumber", -1]]);
+    const vouchers = await Voucher.find({}).sort([["voucherNumber", -1]]);
 
-    if (inovices.length > 0) {
-        this.inoviceNumber = inovices[0].inoviceNumber + 1;
+    if (vouchers.length > 0) {
+        this.voucherNumber = vouchers[0].voucherNumber + 1;
     }
     next();
 });
 
 
-const Invoice = mongoose.model('Invoice', inoviceSchema);
+const Voucher = mongoose.model('Voucher', voucherSchema);
 
-module.exports = Invoice;
+module.exports = Voucher;

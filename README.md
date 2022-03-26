@@ -56,9 +56,16 @@
         * /studentPaymentTransactions/:id - Get Student Payment Transactions **GET**
         * /studentChargeTransactions/:id - Get Student Charge Transactions **GET**
         * /getTransaction/:transactionNumber - Get Transaction By Transaction Number **GET**
-    * /invoices - Invoice Management related routes
-        * / - Get All Invoices **GET**
-        * / - Craete Invoice **POST**
-        * /:id - Get Invoice **GET**
-        * /:id - Update Invoice **PATCH**
-        * /:id - Delete Invoice **DELETE**
+    * /vouchers - Voucher Management related routes
+        * / - Get All Vouchers **GET**
+        * / - Craete Voucher **POST**
+        * /:id - Get Voucher **GET**
+        * /:id - Update Voucher **PATCH**
+        * /:id - Delete Voucher **DELETE**
+    * /marks - Marks Management related routes
+        * / - Get All Students with their exams **GET**
+        * / - Craete Mark **POST**
+        * /:id - Get Student with his exams **GET**
+        * /:id - Update Mark **PATCH**
+        * /:id - Delete Mark **DELETE**
+        * /classMarks/:classId - Get Students with their exams by class **Get**

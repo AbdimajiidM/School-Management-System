@@ -26,6 +26,13 @@ const transactionSchema = mongoose.Schema({
     refrenceId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student"
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: function(){
+            return this.receipt;
+        }
     }
 });
 
