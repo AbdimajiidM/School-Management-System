@@ -27,32 +27,28 @@ exports.getTransaction = catchAsync(async (req, res, next) => {
 
 exports.getAllTransactionByTransactionNumber = catchAsync(async (req, res, next) => {
   const transactionNumber = req.params.transactionNumber;
-  const transaction = await Transaction.findOne({transactionNumber});
+  const transaction = await Transaction.findOne({ transactionNumber });
   res.json({
     status: "success",
     transaction
   })
-})
+});
 
 exports.createTransaction = catchAsync(async (req, res, next) => {
-  const createdTransaction = await createTransactionFn(req.body);
+  const response = await createTransactionFn(req.body, req, res, next);
 
-  res.status(201).json({
-    status: "Success",
-    data: {
-      createdTransaction,
-    },
+  res.status(response.statusCode).json({
+    response,
   });
 });
 
-
 exports.cancelTransaction = catchAsync(async (req, res, next) => {
   const transactionId = req.params.id;
-  const message = await cancelTransactionFn(transactionId);
+  const response = await cancelTransactionFn(transactionId, req, res, next);
 
-  res.status(204).json({
+  res.status(response.statusCode).json({
     status: "success",
-    data: message,
+    response,
   });
 });
 
@@ -85,7 +81,7 @@ exports.getStudentChargeTransactions = catchAsync(async (req, res, next) => {
       transactions
     }
   })
-})
+});
 
 exports.getStudentTransactionsByDate = catchAsync(async (req, res, next) => {
   const studentId = req.params.id;

@@ -16,5 +16,5 @@ router
   .delete(markController.deleteMark);
 
 router.route('/classMarks/:classId').get(markController.getStudentsMarksByClass)
-
+router.route('/courseMarks').post(markController.createCourseMarks);
 module.exports = router;

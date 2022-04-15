@@ -12,14 +12,15 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true,
   })
-  .then((dbs)=>{
+  .then(() => {
     console.log("DB connection successful!");
+
     createDefaulties();
     chargeFeeToStudentFn();
-
   });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
+
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });

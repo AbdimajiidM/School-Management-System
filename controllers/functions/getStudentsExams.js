@@ -8,7 +8,6 @@ async function getStudentExamsFn(marks, courses, student, summary = false) {
         const course = courses[i]; // current course
         let courseExams = []; // current course exams Note: if not summary
         let courseMarks = 0; // current course Marks Note: if summary
-
         // looping marks 
         for (let index = 0; index < marks.length; index++) {
             // getting current course exam marks and storing in courseExams variable 
@@ -42,12 +41,13 @@ async function getStudentExamsFn(marks, courses, student, summary = false) {
     }
     const percentage = `${(100 * totolMarks) / 1000}%`;
     const studentName = student.fullName;
-    const className = student.class.name;
+   
+    const className = student.class ? student.class.name : 'No Class';
 
     return {
         studentName,
-        className,
         totolMarks,
+        className,
         percentage,
         subjects
     };
@@ -77,6 +77,7 @@ async function getStudentsExamsSummary(students, courses, query) {
         if (student._id) filter = { student: student._id };
         const features = new APIFeatures(Mark.find(filter).populate('course').populate('student').populate('class'), query).filter().sort().limitFields().paginate()
         const marks = await features.query;
+        
         const exams = await getStudentExamsFn(marks, courses, student, true);
         if (exams) studentsExams.push(exams);
     }

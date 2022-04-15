@@ -19,6 +19,4 @@ router.route("/:studentId/:classId").post(studentController.assignStudentToClass
 
 
 
-
-
 module.exports = router;

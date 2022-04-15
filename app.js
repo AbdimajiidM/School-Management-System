@@ -14,6 +14,8 @@ const voucherRoutes = require("./routes/voucherRoutes")
 const chargeScheduleRoutes = require('./routes/chargeScheduleRoutes');
 const userRoutes = require("./routes/userRoutes");
 const markRoutes = require("./routes/markRoutes");
+const periodRoutes = require("./routes/periodRoutes");
+
 
 const app = express();
 
@@ -36,7 +38,9 @@ app.use('/api/v1/transactions', transactionRoutes);
 app.use('/api/v1/vouchers', voucherRoutes);
 app.use('/api/v1/chargesSchedule', chargeScheduleRoutes);
 app.use('/api/v1/users', userRoutes);
-app.use('/api/v1/marks', markRoutes)
+app.use('/api/v1/marks', markRoutes);
+app.use('/api/v1/periods', periodRoutes)
+
 app.all('*', (req, res, next) => {
   next(new AppError(`cant't found ${req.originalUrl} on this server`, 404));
 });

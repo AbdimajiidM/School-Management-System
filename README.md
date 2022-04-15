@@ -69,3 +69,4 @@
         * /:id - Update Mark **PATCH**
         * /:id - Delete Mark **DELETE**
         * /classMarks/:classId - Get Students with their exams by class **Get**
+        * /courseMarks - Create Course Marks **POST**

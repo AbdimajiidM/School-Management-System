@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
+function chargeCheck() {
+    return !this.receipt;
+};
+
+function receiptCheck() {
+    return !this.charge;
+};
+
 const transactionSchema = mongoose.Schema({
     description: {
         type: String,
@@ -7,9 +15,11 @@ const transactionSchema = mongoose.Schema({
     },
     charge: {
         type: Number,
+        required: chargeCheck,
     },
     receipt: {
         type: Number,
+        required: receiptCheck,
     },
     date: {
         type: Date,
@@ -27,10 +37,17 @@ const transactionSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Student"
     },
+    discount: Number,
+    discountReason: {
+        type: String,
+        required: function () {
+            return this.discount;
+        }
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: function(){
+        required: function () {
             return this.receipt;
         }
     }
