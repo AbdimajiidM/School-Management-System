@@ -35,53 +35,55 @@ exports.createMark = catchAsync(async (req, res, next) => {
 exports.createCourseMarks = catchAsync(async (req, res, next) => {
 
   const { students, term, userId, classId, exam, course } = req.body;
-    let validMarks = [];
-    let ivalidMarks = []
-  
-    if (students) for (let index = 0; index < students.length; index++) {
-      const currentStudent = students[index];
-      const currentStudentId = currentStudent.studentId;
-      const examMarks = currentStudent[exam.toLowerCase()]
-      const student = await Student.findOne({ currentStudentId });
-      
-      let mark = {
-        student: student._id,
-        class: classId,
-        user: userId,
-        term,
-        course,
-        exam : exam.toLowerCase(),
-        marks: examMarks,
-        remarks: currentStudent.remarks
-      }
-      const model = new Mark(mark);
-      let error = model.validateSync();
-      if (!error) {
-        validMarks.push(mark)
-      } else if (error) {
-        ivalidMarks.push({
-          mark,
-          error: error.message
-        })
-      }
-  
-    }
+  let validMarks = [];
+  let ivalidMarks = []
 
-    if (ivalidMarks.length) {
-      return res.status(400).json({
-        status: 'failed',
-        message: `please check the excel Format`,
-        ivalidMarks,
+  if (students) for (let index = 0; index < students.length; index++) {
+    const currentStudent = students[index];
+    const currentStudentId = currentStudent.studentId;
+    const examMarks = currentStudent[exam.toLowerCase()]
+    const student = await Student.findOne({ studentId: currentStudentId });
+    if (!student) {
+      return next(new AppError(`No Student Found with ID ${currentStudentId}`, 400))
+    }
+    let mark = {
+      student: student._id,
+      class: classId,
+      user: userId,
+      term,
+      course,
+      exam: exam.toLowerCase(),
+      marks: examMarks,
+      remarks: currentStudent.remarks
+    }
+    const model = new Mark(mark);
+    let error = model.validateSync();
+    if (!error) {
+      validMarks.push(mark)
+    } else if (error) {
+      ivalidMarks.push({
+        mark,
+        error: error.message
       })
     }
-  
-    const createdMarks = await Mark.create(validMarks)
-  
-    res.status(400).json({
-      status: "success",
-      message: `${validMarks.length} student Marks stored Sucessfully`,
-      createdMarks
+
+  }
+
+  if (ivalidMarks.length) {
+    return res.status(400).json({
+      status: 'failed',
+      message: `please check the excel Format`,
+      ivalidMarks,
     })
+  }
+
+  const createdMarks = await Mark.create(validMarks)
+
+  res.status(400).json({
+    status: "success",
+    message: `${validMarks.length} student Marks stored Sucessfully`,
+    createdMarks
+  })
 
 
 });

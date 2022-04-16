@@ -3,6 +3,7 @@ const APIFeatures = require("../utils/apiFeatures")
 const Period = require("../models/periodModel");
 const appError = require("../utils/appError");
 const AppError = require("../utils/appError");
+const mongoose = require("mongoose");
 
 exports.getAllPeriods = catchAsync(async (req, res, next) => {
     const features = new APIFeatures(Period.find(), req.query).filter().sort().limitFields().paginate()
@@ -28,24 +29,16 @@ exports.getPeriod = catchAsync(async (req, res, next) => {
 });
 
 exports.createPeriod = catchAsync(async (req, res, next) => {
-    const { day, course, startTime, endTime, teacher, duration } = req.body;
 
-    const createdPeriod = await Period.create({
-        day: day.toLowerCase(),
-        course,
-        teacher,
-        startTime,
-        endTime,
-        duration,
-        class: req.body.class
-    });
-
+    const periods = await Period.insertMany(req.body)
     res.status(201).json({
         status: "Success",
         data: {
-            createdPeriod,
+            periods
         },
     });
+
+
 });
 
 exports.updatePeriod = catchAsync(async (req, res, next) => {
@@ -91,43 +84,26 @@ exports.deletePeriod = catchAsync(async (req, res, next) => {
 exports.getPeriodsByClass = catchAsync(async (req, res, next) => {
     const classId = req.params.classId;
 
+    // if no class return with error
     if (!classId) {
         return next(new AppError('please tell us the class ID ', 400));
     }
-    const features = new APIFeatures(Period.find({ class: classId }), req.query).filter().sort().limitFields().paginate()
+
+    // find class periods
+    const features = new APIFeatures(Period.find({ class: classId }).populate('class').populate('course').populate('teacher'), req.query).filter().sort().limitFields().paginate()
     const periods = await features.query;
 
+    // design periods as timetable
     let periodsByDay = {
-        'saturday': [],
-        'sunday': [],
-        'monday': [],
-        'tuesday': [],
-        'wednesday': [],
-        'thursday': [],
-        'friday': []
+        'saturday': [], 'sunday': [], 'monday': [], 'tuesday': [], 'wednesday': [], 'thursday': [], 'friday': []
     }
 
     for (let index = 0; index < periods.length; index++) {
         const period = periods[index]
-        if (period.day == 'saturday') {
-            periodsByDay.saturday.push(period)
-        } else if (period.day == 'sunday') {
-            periodsByDay.sunday.push(period)
-        } else if (period.day == 'monday') {
-            periodsByDay.monday.push(period)
-        } else if (period.day == 'tuseday') {
-            periodsByDay.tuesday.push(period)
-        } else if (period.day == 'wednesday') {
-            periodsByDay.wednesday.push(period)
-        } else if (period.day == 'thursday') {
-            periodsByDay.thursday.push(period)
-        } else if (period.day == 'friday') {
-            periodsByDay.friday.push(period)
-        }
-
+        periodsByDay[period.day].push(period)
     }
 
-
+    // send response
     res.status(200).json({
         status: "success",
         length: periods.length,

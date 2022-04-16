@@ -30,34 +30,10 @@ exports.getStudent = catchAsync(async (req, res, next) => {
 });
 
 exports.createdStudent = catchAsync(async (req, res, next) => {
-  const students = req.body;
-  let validStudents = [];
-  let inValidStudents = [];
-  for (let index = 0; index < students.length; index++) {
-    const student = students[index];
-    const model = new Student(student);
-    let error = model.validateSync();
-    if (!error) {
-      validStudents.push(students[index])
-    } else if (error) {
-      inValidStudents.push({
-        student,
-        error: error.message
-      })
-    }
-  }
-  if (inValidStudents.length != 0) {
-    return res.status(400).json({
-      status: 'failed',
-      message: "failed to validate some students fields",
-      inValidStudents
-    })
-  }
-
-  const createdStudents = await Student.create(validStudents)
+  const students = await Student.insertMany(req.body)
   res.json({
-    length: createdStudents.length,
-    createdStudents
+    length: students.length,
+    students
   })
 });
 

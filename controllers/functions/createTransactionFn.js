@@ -12,11 +12,11 @@ async function createTransactionFn(transaction, req, res, next) {
         const student = await Student.findById(transaction.refrenceId);
 
         if (transaction.charge) {
-            // update credit account in the student if the transaction is charge transaction
-            student.credit = student.credit + transaction.charge;
-        } else if (transaction.receipt) {
             // update debit account in the student if the transaction is charge transaction
-            student.debit = student.debit + transaction.receipt;
+            student.debit = student.debit + transaction.charge;
+        } else if (transaction.receipt) {
+            // update credit account in the student if the transaction is receipt transaction
+            student.credit = student.credit + transaction.receipt;
         } else {
             return "Tranasaction must be charge Transaction or Receipt Transaction"
         }

@@ -70,3 +70,12 @@
         * /:id - Delete Mark **DELETE**
         * /classMarks/:classId - Get Students with their exams by class **Get**
         * /courseMarks - Create Course Marks **POST**
+    * /periods - Period Management Related Routes
+        * / - Get All Periods **GET**
+        * / - Create Period **POST**
+        * /:id - Get Period **GET**
+        * /:id - Update Period **PATCH**
+        * /:id - Delete Period **DELETE**
+        * /classPeriods/:classId - Get Periods by Class
+    * /dashboard - Dashboard Management Related Routes
+        * / - Get Dashboard - **GET**

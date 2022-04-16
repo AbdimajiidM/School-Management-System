@@ -1,6 +1,15 @@
 const mongoose = require("mongoose");
 
 const markSchema = mongoose.Schema({
+    examId: {
+        type: String,
+        required: true,
+        unique: true,
+        default: function () {
+            return `${this.exam}${this.term}${this.student}`
+        },
+
+    },
     exam: {
         type: String,
         required: true,
@@ -40,4 +49,4 @@ const markSchema = mongoose.Schema({
 
 const Mark = mongoose.model("Mark", markSchema);
 
- module.exports = Mark;
+module.exports = Mark;
