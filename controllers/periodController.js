@@ -1,19 +1,47 @@
 const catchAsync = require("./../utils/catchAsync");
 const APIFeatures = require("../utils/apiFeatures")
 const Period = require("../models/periodModel");
+const Class = require("../models/classModel")
 const appError = require("../utils/appError");
 const AppError = require("../utils/appError");
-const mongoose = require("mongoose");
 
 exports.getAllPeriods = catchAsync(async (req, res, next) => {
-    const features = new APIFeatures(Period.find(), req.query).filter().sort().limitFields().paginate()
+    // get all periods with query
+    const features = new APIFeatures(Period.find().populate('class').populate('course').populate('teacher'), req.query).filter().sort().limitFields().paginate()
     const periods = await features.query;
 
+    let periodsByClass = [];
+
+    // desing periods by class, by adding periodsByclass variable custome class schema for periods
+    const dbClasses = await Class.find();
+    if (dbClasses) for (const index in dbClasses) {
+        const _class = dbClasses[index];
+        if (_class) periodsByClass.push({
+            id: _class._id,
+            name: _class.name,
+            periods: []
+        })
+    };
+
+    // loop periods and store every period its class in the periodByClass variable
+    if (periods) for (const index in periods) {
+        const period = periods[index] // get current period in the periods array from db
+        for (const i in periodsByClass) { // loop periodsByClass variable[array]
+            const _class = periodsByClass[i]; // get current class
+            // check if the two IDs[the period's class id and the class id in the periodsByclass variable]
+            if (period.class._id.toString() === _class.id.toString()) {
+                // push the period to it's class in the periodsByClass variable
+                periodsByClass[i].periods.push(period)
+            }
+        }
+    }
+
+    // send the response
     res.status(200).json({
         message: "Sucess",
         count: periods.length,
         data: {
-            periods,
+            classes: periodsByClass
         },
     });
 });

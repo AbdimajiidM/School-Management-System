@@ -49,7 +49,6 @@ const periodSchema = new mongoose.Schema({
 // Create a virtual property `startTime` that's computed from `startDate`.
 periodSchema.virtual('startTime').get(function () {
     var hours = this.startHour;
-    console.log(this.startHour)
     var minutes = this.startMinute;
     if(minutes==0) minutes = '00';
     const startTime = `${hours}:${minutes}`
