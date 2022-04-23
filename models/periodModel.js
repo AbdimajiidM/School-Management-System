@@ -1,32 +1,37 @@
-const mongoose = require("mongoose")
-
-const days = ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thurusday', 'friday']
+const mongoose = require("mongoose");
+const Day = require("./dayModel")
 
 const periodSchema = new mongoose.Schema({
     day: {
         type: String,
         required: true,
-        enum: days
+        validate: {
+            validator: async function (arg) {
+                const day = await Day.findOne({ name: arg });
+                return day;
+            },
+            message: '{VALUE} is not a valid day'
+        }
     },
-    startHour: {
-        type: Number,
+    startTime: {
+        type: String,
         required: true
     },
-    startMinute: {
-        type: Number,
-        required: true
-    },
-    endHour: {
-        type: Number,
-        required: true
-    },
-    endMinute: {
-        type: Number,
+    endTime: {
+        type: String,
         required: true
     },
     period: {
         type: Number,
         required: true,
+    },
+    periodUniqueId: {
+        type: String,
+        required: true,
+        unique: true,
+        default: function () {
+            return `${this.day}${this.period}${this.class}`
+        },
     },
     class: {
         type: mongoose.Schema.Types.ObjectId,
@@ -46,29 +51,10 @@ const periodSchema = new mongoose.Schema({
 });
 
 
-// Create a virtual property `startTime` that's computed from `startDate`.
-periodSchema.virtual('startTime').get(function () {
-    var hours = this.startHour;
-    var minutes = this.startMinute;
-    if(minutes==0) minutes = '00';
-    const startTime = `${hours}:${minutes}`
-    return  startTime;
-});
-
-// Create a virtual property `endTime` that's computed from `endDate`.
-periodSchema.virtual('endTime').get(function () {
-    var hours = this.endHour;
-    var minutes = this.endMinute;
-    if(minutes==0) minutes = '00';
-    const endTime = `${hours}:${minutes}`
-    return  endTime;
-});
-
-periodSchema.set('toJSON', {
-    virtuals: true
-});
-
 const Period = mongoose.model('Period', periodSchema);
+
+
+
 
 
 module.exports = Period;

@@ -2,6 +2,9 @@ const catchAsync = require("./catchAsync");
 const Stage = require("../models/stageModel");
 const Course = require("../models/courseModel");
 const Class = require("../models/classModel");
+const Day = require("../models/dayModel");
+const Month = require("../models/monthModel");
+
 const defatulCourses = require("./default_courses");
 const defaultClasses = require("./default_classes");
 
@@ -20,8 +23,29 @@ createDefaultStages = catchAsync(async () => {
 
     console.log("Default Stages Sucessfully Created!");
   }
-  createDefaultCourses();
+  createDaysAndMonths();
+
 });
+
+createDaysAndMonths = catchAsync(async () => {
+  const days = await Day.find();
+  if (days.length <= 0) {
+    const daysArray = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    daysArray.forEach(async (day) => {
+      await Day.create({ name: day })
+    });
+  }
+
+  const months = await Month.find();
+  if (months.length <= 0) {
+    const monthsArray = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    monthsArray.forEach(async (month) => {
+      await Month.create({ name: month })
+    });
+  }
+
+  createDefaultCourses();
+})
 
 createDefaultCourses = catchAsync(async () => {
   const courses = await Course.find();
@@ -67,7 +91,7 @@ createDefaultCourses = catchAsync(async () => {
       await stage.save();
     }
 
-     console.log("Default Courses Sucessfully Created!");
+    console.log("Default Courses Sucessfully Created!");
   }
 
   createDefaultClasses();
@@ -95,10 +119,9 @@ createDefaultClasses = catchAsync(async () => {
       });
     }
 
-     console.log("Default Classes Sucessfully Created!");
+    console.log("Default Classes Sucessfully Created!");
   }
 });
-
 createStudentCharge = catchAsync(async (req, res, next) => {
   const studentCharges = await mongoose.find();
   console.log(studentCharges)

@@ -15,6 +15,6 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
-
+router.route('/authenticate').post(userController.authenticateUser)
 
 module.exports = router;
