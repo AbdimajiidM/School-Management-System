@@ -50,6 +50,10 @@ const transactionSchema = mongoose.Schema({
         required: function () {
             return this.receipt;
         }
+    },
+    status: {
+        type: String,
+        default: 'Open'
     }
 });
 

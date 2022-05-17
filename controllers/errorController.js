@@ -1,15 +1,16 @@
 const AppError = require("../utils/appError");
 
-const handleCastErrorDB = err=>{
+const handleCastErrorDB = err => {
   const message = `Invalid ${err.path}: ${err.value}`;
   return new AppError(message, 400)
 }
 
-const handleDuplicateFieldsDB = err=>{
- const value = err.keyValue.name || err.keyValue.email;
- const message = `${value} is not availibe, please use an other one`
- return new AppError(message, 400)
+const handleDuplicateFieldsDB = err => {
+  const value = err.keyValue.name || err.keyValue.email;
+  const message = `${value} is not availibe, please use an other one`
+  return new AppError(message, 400)
 }
+
 
 
 const sendErrorDev = (err, res) => {
@@ -22,13 +23,13 @@ const sendErrorDev = (err, res) => {
 };
 
 const sendErrorProd = (err, res) => {
-  if(err.isOperational){
+  if (err.isOperational) {
     res.status(err.statusCode || 500).json({
       status: err.status,
       message: err.message
     });
-  } else{
-    console.error("Error ",err);
+  } else {
+    // console.error("Error ", err);
     res.status(500).json({
       status: 'error',
       message: "something went very wrong"
@@ -43,12 +44,16 @@ module.exports = (err, req, res, next) => {
   if (process.env.NODE_ENV == 'development') {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV == 'production') {
-  
-    let error = {...err};
-    
-    if(error.code === 11000) error = handleDuplicateFieldsDB(error);
-    
-    if(error.name === "CastError") error = handleCastErrorDB(error);
+
+    let error = { ...err };
+    // console.log(error);
+
+    if (error.code === 11000) error = handleDuplicateFieldsDB(error);
+
+    if (error.name === "CastError") error = handleCastErrorDB(error);
+
+
+    // console.log(error.errors.email & error.errors.email.kind === "required");
 
     sendErrorProd(error, res);
   }

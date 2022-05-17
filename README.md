@@ -77,5 +77,12 @@
         * /:id - Update Period **PATCH**
         * /:id - Delete Period **DELETE**
         * /classPeriods/:classId - Get Periods by Class
+    * /users - User Management Related Routes
+        * / - Get All Users **GET**
+        * / - Create User **POST**
+        * /:id - Get User **GET**
+        * /:id - Update User **PATCH**
+        * /:id - Delete User **DELETE**
+        * /authenticate/ - authenticate user **GET**
     * /dashboard - Dashboard Management Related Routes
         * / - Get Dashboard - **GET**

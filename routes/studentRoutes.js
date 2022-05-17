@@ -6,7 +6,7 @@ const router = express.Router();
 router
   .route("/")
   .get(studentController.getAllAStudents)
-  .post(studentController.createdStudent);
+  .post(studentController.createdStudents);
 
 router
   .route("/:id")
@@ -15,7 +15,7 @@ router
   .delete(studentController.deleteStudent);
 
 router.route("/trash/:id").post(studentController.trashStudent);
-router.route("/:studentId/:classId").post(studentController.assignStudentToClass);
+router.route("/:students/:classId").post(studentController.assignStudentsToClass);
 
 
 

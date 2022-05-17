@@ -96,8 +96,8 @@ exports.deleteUser = catchAsync(async (req, res, next) => {
 exports.authenticateUser = catchAsync(async (req, res, next) => {
 
   // get username and password
-  const username = req.body.username;
-  const password = req.body.password;
+  const username = req.query.username;
+  const password = req.query.password;
 
   // if username or password is empty
   if (!username || !password) {

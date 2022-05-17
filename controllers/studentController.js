@@ -2,14 +2,16 @@ const catchAsync = require("./../utils/catchAsync");
 const Student = require("../models/studentModel");
 const Class = require("../models/classModel");
 const appError = require("../utils/appError");
-const assignStudentToClassFn = require("./functions/assignStudentToClassFn");
+const assignStudentsToClassFn = require("./functions/assignStudentsToClassFn");
 const trashStudentFn = require("./functions/trashStudentFn");
 const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures")
 
 exports.getAllAStudents = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Student.find().populate('class'), req.query).filter().sort().limitFields().paginate()
+  const features = new APIFeatures(Student.find().populate('class').populate('transactions'), req.query).filter().sort().limitFields().paginate()
   const students = await features.query;
+
+
   res.status(200).json({
     message: "Sucess",
     count: students.length,
@@ -20,16 +22,17 @@ exports.getAllAStudents = catchAsync(async (req, res, next) => {
 });
 
 exports.getStudent = catchAsync(async (req, res, next) => {
-  const student = await Student.findById(req.params.id).populate("class");
+  const student = await Student.findById(req.params.id).populate("class").populate('transactions');
   res.status(200).json({
     message: "Sucess",
+
     data: {
       student,
     },
   });
 });
 
-exports.createdStudent = catchAsync(async (req, res, next) => {
+exports.createdStudents = catchAsync(async (req, res, next) => {
   const students = await Student.insertMany(req.body)
   res.json({
     length: students.length,
@@ -67,19 +70,16 @@ exports.deleteStudent = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.assignStudentToClass = catchAsync(async (req, res, next) => {
+exports.assignStudentsToClass = catchAsync(async (req, res, next) => {
   // get the student id and the class needed to assign from params
-  const studentId = req.params.studentId;
+
+  const students = req.params.students.split(',');
   const classId = req.params.classId;
 
-  const message = await assignStudentToClassFn(studentId, classId);
+
+  const response = await assignStudentsToClassFn(students, classId);
   // send Response
-  res.status(201).json({
-    status: "success",
-    data: {
-      message,
-    },
-  });
+  res.status(response.statusCode).json(response);
 });
 
 exports.trashStudent = catchAsync(async (req, res, next) => {
