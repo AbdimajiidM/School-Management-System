@@ -4,6 +4,7 @@ const Period = require("../models/periodModel");
 const Class = require("../models/classModel")
 const appError = require("../utils/appError");
 const AppError = require("../utils/appError");
+const Day = require("../models/dayModel");
 
 exports.getAllPeriods = catchAsync(async (req, res, next) => {
     // get all periods with query
@@ -70,19 +71,11 @@ exports.createPeriod = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePeriod = catchAsync(async (req, res, next) => {
-    const { day, courseId, startTime, endTime, teacherId, classId } = req.body;
-    const body = {
-        day,
-        course: courseId,
-        teacher: teacherId,
-        startDate: startTime,
-        endDate: endTime,
-        class: classId
-    };
+    const body = req.body;
 
     const period = await Period.findByIdAndUpdate(req.params.id, body, {
         new: true,
-        // runValidators: true,
+        runValidators: true,
     });
 
     if (!period) {
@@ -117,17 +110,28 @@ exports.getPeriodsByClass = catchAsync(async (req, res, next) => {
         return next(new AppError('please tell us the class ID ', 400));
     }
 
+    const dbClass = await Class.findById(classId);
+
+    // if the ID is not correct ID return error
+    if (!dbClass) {
+        return next(new AppError('No Class Found with that ID ', 400));
+    }
     // find class periods
     const features = new APIFeatures(Period.find({ class: classId }).populate('class').populate('course').populate('teacher'), req.query).filter().sort().limitFields().paginate()
     const periods = await features.query;
 
     // design periods as timetable
-    let periodsByDay = {
-        'saturday': [], 'sunday': [], 'monday': [], 'tuesday': [], 'wednesday': [], 'thursday': [], 'friday': []
-    }
+
+    const days = await Day.find();
+
+    let periodsByDay = {}
+    days.forEach(day => {
+        periodsByDay[day.name] = [];
+    });
 
     for (let index = 0; index < periods.length; index++) {
-        const period = periods[index]
+        const period = periods[index];
+        console.log(periodsByDay[period.day])
         periodsByDay[period.day].push(period)
     }
 
