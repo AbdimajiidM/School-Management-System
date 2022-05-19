@@ -58,8 +58,7 @@ exports.getPeriod = catchAsync(async (req, res, next) => {
 });
 
 exports.createPeriod = catchAsync(async (req, res, next) => {
-
-    const periods = await Period.insertMany(req.body)
+    const periods = await Period.create(req.body)
     res.status(201).json({
         status: "Success",
         data: {
@@ -71,7 +70,12 @@ exports.createPeriod = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePeriod = catchAsync(async (req, res, next) => {
-    const body = req.body;
+    const body = {
+        startTime: req.body.startTime,
+        endTime: req.body.endTime,
+        teacher: req.body.teacher,
+        course: req.body.counrse,
+    };
 
     const period = await Period.findByIdAndUpdate(req.params.id, body, {
         new: true,
