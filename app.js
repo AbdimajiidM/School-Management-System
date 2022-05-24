@@ -13,6 +13,7 @@ const transactionRoutes = require('./routes/transactionRoutes')
 const voucherRoutes = require("./routes/voucherRoutes")
 const chargeScheduleRoutes = require('./routes/chargeScheduleRoutes');
 const userRoutes = require("./routes/userRoutes");
+const employeeRoutes = require("./routes/employeeRoutes")
 const markRoutes = require("./routes/markRoutes");
 const periodRoutes = require("./routes/periodRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
@@ -30,7 +31,7 @@ app.use(express.json());
 
 // 3) ROUTES
 app.use('/api/v1/students', studentRouter);
-app.use('/api/v1/classes',classRoutes );
+app.use('/api/v1/classes', classRoutes);
 app.use('/api/v1/courses', courseRoutes);
 app.use('/api/v1/teachers', teacherRoutes);
 app.use('/api/v1/stages', stageRoutes);
@@ -38,8 +39,9 @@ app.use('/api/v1/transactions', transactionRoutes);
 app.use('/api/v1/vouchers', voucherRoutes);
 app.use('/api/v1/chargesSchedule', chargeScheduleRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/employees', employeeRoutes);
 app.use('/api/v1/marks', markRoutes);
-app.use('/api/v1/periods', periodRoutes),
+app.use('/api/v1/periods', periodRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes)
 
 app.all('*', (req, res, next) => {

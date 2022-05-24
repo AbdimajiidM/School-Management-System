@@ -77,6 +77,12 @@
         * /:id - Update Period **PATCH**
         * /:id - Delete Period **DELETE**
         * /classPeriods/:classId - Get Periods by Class
+    * /employees - Employee Management Related Routes
+        * / - Get All Employees **GET**
+        * / - Create Employee **POST**
+        * /:id - Get Employee **GET**
+        * /:id - Update Employee **PATCH**
+        * /:id - Delete Employee **DELETE**
     * /users - User Management Related Routes
         * / - Get All Users **GET**
         * / - Create User **POST**
