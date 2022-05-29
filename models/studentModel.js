@@ -39,10 +39,6 @@ const studentSchema = mongoose.Schema({
   },
   contact: {
     type: String,
-  },
-  monthlyFee: {
-    type: Number,
-    required: true
   }
 }, opts)
 

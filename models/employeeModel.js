@@ -25,22 +25,22 @@ const employeeSchema = mongoose.Schema({
 }, opts)
 
 // Create a virtual property `fullName` that's computed from `first_name`, `middle_name` and `last_name`.
-studentSchema.virtual('fullName').get(function () {
+employeeSchema.virtual('fullName').get(function () {
     return `${this.first_name} ${this.middle_name} ${this.last_name}`;
 });
 
 
 // auto generate employee ID
-studentSchema.pre("validate", async function (next) {
+employeeSchema.pre("validate", async function (next) {
     //sorting students
-    const employee = await Employee.find({}).sort([["employeeId", -1]]);
-    if (students.length > 0) {
-        this.employeeId = employee[0].employeeId + 1;
+    const employees = await Employee.find({}).sort([["employeeId", -1]]);
+    if (employees.length > 0) {
+        this.employeeId = employees[0].employeeId + 1;
     }
     next();
 });
 
 
-const Employee = mongoose.model('Employee', employeeSchema);
+const Employee = mongoose.model('employee', employeeSchema);
 
 module.exports = Employee;

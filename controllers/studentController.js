@@ -23,6 +23,10 @@ exports.getAllAStudents = catchAsync(async (req, res, next) => {
 
 exports.getStudent = catchAsync(async (req, res, next) => {
   const student = await Student.findById(req.params.id).populate("class").populate('transactions');
+
+  if (!student) {
+    return next(appError("No Student found with that ID", 401))
+  }
   res.status(200).json({
     message: "Sucess",
 
@@ -33,7 +37,7 @@ exports.getStudent = catchAsync(async (req, res, next) => {
 });
 
 exports.createdStudents = catchAsync(async (req, res, next) => {
-  const students = await Student.insertMany(req.body)
+  const students = await Student.create(req.body)
   res.json({
     length: students.length,
     students
@@ -47,7 +51,7 @@ exports.updateStudent = catchAsync(async (req, res, next) => {
   });
 
   if (!student) {
-    return next(new appError("no tour found with that ID", 404));
+    return next(new appError("No Student found with that ID", 404));
   }
 
   res.status(200).json({
@@ -62,7 +66,7 @@ exports.deleteStudent = catchAsync(async (req, res, next) => {
   const student = await Student.findByIdAndDelete(req.params.id);
 
   if (!student) {
-    return next(new AppError("no tour found with that ID", 404));
+    return next(new AppError("No Student found with that ID", 404));
   }
   res.status(204).json({
     status: "success",

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-function trashCheckFn(){
+function trashCheckFn() {
   return this.name != "Trashed";
 };
 const classSchema = mongoose.Schema({
@@ -36,6 +36,9 @@ const classSchema = mongoose.Schema({
       // default: null,
     },
   ],
+  group: {
+    type: String,
+  }
 });
 
 const Class = mongoose.model("Class", classSchema);

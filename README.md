@@ -90,5 +90,21 @@
         * /:id - Update User **PATCH**
         * /:id - Delete User **DELETE**
         * /authenticate/ - authenticate user **GET**
+     * /classGroups - Class Group Management Related Routes
+        * / - Get All Class Groups **GET**
+        * / - Create Class Group **POST**
+        * /:id - Update Class Group **PATCH**
+        * /:id - Delete Class Group **DELETE**
+        * /authenticate/ - authenticate user **GET**
+     * /feeCharges - Fee Charge Management Related Routes
+        * / - Get All Fee Charges **GET**
+        * / - Create Fee Charge **POST**
+        * /:id - Update Fee Charge **PATCH**
+        * /:id - Delete Fee Charge **DELETE**
+    * /examCharges - Exam Charge Management Related Routes
+        * / - Get All Exam Charges **GET**
+        * / - Create Exam Charge **POST**
+        * /:id - Update Exam Charge **PATCH**
+        * /:id - Delete Exam Charge **DELETE**
     * /dashboard - Dashboard Management Related Routes
-        * / - Get Dashboard - **GET**
+        * / - Get Dashboard **GET**

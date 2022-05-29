@@ -70,11 +70,12 @@ exports.createPeriod = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePeriod = catchAsync(async (req, res, next) => {
+    const { startTime, endTime, teacher, course } = req.body;
     const body = {
-        startTime: req.body.startTime,
-        endTime: req.body.endTime,
-        teacher: req.body.teacher,
-        course: req.body.counrse,
+        startTime,
+        endTime,
+        teacher,
+        course,
     };
 
     const period = await Period.findByIdAndUpdate(req.params.id, body, {

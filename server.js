@@ -2,7 +2,6 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const createDefaulties = require('./utils/createDefaulties')
-const chargeFeeToStudentFn = require('./utils/chargeFeeToStudent');
 dotenv.config({ path: "./config.env" });
 const app = require("./app");
 
@@ -23,7 +22,6 @@ mongoose.connect(DB, {
 }).then(() => {
   console.log("DB connection successful!");
   createDefaulties();
-  chargeFeeToStudentFn();
 });
 
 // listen the server

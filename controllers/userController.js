@@ -4,12 +4,9 @@ const appError = require("../utils/appError");
 
 const bcrypt = require('bcrypt');
 
-const AppError = require("../utils/appError");
-
-
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
+  const users = await User.find().select("-password -__v");
   res.status(200).json({
     message: "Sucess",
     count: users.length,
@@ -20,7 +17,10 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 });
 
 exports.getUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id).select("-password -__v");
+  if (!user) {
+    return next(new appError("No User Found with that ID", 400));
+  }
   res.status(200).json({
     message: "Sucess",
     data: {
@@ -101,7 +101,7 @@ exports.authenticateUser = catchAsync(async (req, res, next) => {
 
   // if username or password is empty
   if (!username || !password) {
-    return next(new AppError("failed, username and password are required", 400))
+    return next(new appError("failed, username and password are required", 400))
   }
 
   // get user with username in the database
@@ -109,7 +109,7 @@ exports.authenticateUser = catchAsync(async (req, res, next) => {
 
   // if user does not exist send error
   if (!user) {
-    return next(new AppError("failed, incorrect username or password", 403))
+    return next(new appError("failed, incorrect username or password", 403))
   }
 
   // authenticate user by comparing the entered password and user password
@@ -117,7 +117,7 @@ exports.authenticateUser = catchAsync(async (req, res, next) => {
 
   // if the passwords are not same send error
   if (!authenticated) {
-    return next(new AppError("failed, incorrect username or password", 403))
+    return next(new appError("failed, incorrect username or password", 403))
   }
 
   // send response
@@ -128,6 +128,7 @@ exports.authenticateUser = catchAsync(async (req, res, next) => {
       _id: user._id,
       name: user.name,
       username: user.username,
+      password: user.Password,
       privillages: user.privillages
     },
   })
