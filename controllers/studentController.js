@@ -75,8 +75,8 @@ exports.deleteStudent = catchAsync(async (req, res, next) => {
 });
 
 exports.assignStudentsToClass = catchAsync(async (req, res, next) => {
-  // get the student id and the class needed to assign from params
 
+  // get the student id and the class needed to assign from params
   const students = req.params.students.split(',');
   const classId = req.params.classId;
 

@@ -47,29 +47,35 @@ studentSchema.virtual('fullName').get(function () {
   return `${this.first_name} ${this.middle_name} ${this.last_name}`;
 });
 
-// create a virtual property `credit` that's computed from `student charge transactions` in the transaction document
-studentSchema.virtual('credit').get(function () {
-  const chargeTransactions = this.transactions.filter((transaction) => transaction.charge);
-  let credit = 0;
-  chargeTransactions.forEach(transaction => {
-    credit += transaction.charge;
-  });
-  return credit;
+
+// Create a virtual property `fullName` that's computed from `first_name`, `middle_name` and `last_name`.
+studentSchema.virtual('monthlyFee').get(function () {
+  return this.class ? this.class.fee : null;
 });
 
-// create a virtual property `debit` that's computed from `student receipt transactions` in the transaction document
+// create a virtual property `credit` that's computed from `student charge transactions` in the transaction document
 studentSchema.virtual('debit').get(function () {
-  const receiptTransactions = this.transactions.filter((transaction) => transaction.receipt);
+  const debitTransactions = this.transactions.filter((transaction) => transaction.debit);
   let debit = 0;
-  receiptTransactions.forEach(transaction => {
-    debit += transaction.receipt;
+  debitTransactions.forEach(transaction => {
+    debit += transaction.debit;
   });
   return debit;
 });
 
+// create a virtual property `debit` that's computed from `student receipt transactions` in the transaction document
+studentSchema.virtual('credit').get(function () {
+  const creditTransactions = this.transactions.filter((transaction) => transaction.credit != null);
+  let credit = 0;
+  creditTransactions.forEach(transaction => {
+    credit += transaction.credit;
+  });
+  return credit;
+});
+
 // create a virtual property `balance` that's computed from `credit` adn `debit` Accounts
 studentSchema.virtual('balance').get(function () {
-  return this.credit - this.debit;
+  return this.debit - this.credit;
 });
 
 

@@ -3,6 +3,9 @@ const transactionController = require("../controllers/transactionController");
 
 const router = express.Router();
 
+router.route("/postExamCharges").get(transactionController.postExamCharges);
+router.route("/postFeeCharges").get(transactionController.postFeeCharges);
+
 router
   .route("/")
   .get(transactionController.getAllTransaction)
@@ -24,11 +27,12 @@ router
 
 router
   .route("/studentPaymentTransactions/:id")
-  .get(transactionController.getStudentReceiptTransactions);
+  .get(transactionController.getStudentPaymentTransactions);
 
 router
   .route("/studentChargeTransactions/:id")
   .get(transactionController.getStudentChargeTransactions);
 
-router.route("/getTransaction/:transactionNumber").get(transactionController.getAllTransactionByTransactionNumber)
+router.route("/getTransaction/:transactionNumber").get(transactionController.getAllTransactionByTransactionId)
+
 module.exports = router;
