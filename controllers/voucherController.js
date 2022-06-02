@@ -9,7 +9,7 @@ exports.getAllVouchers = catchAsync(async (req, res, next) => {
     message: "Sucess",
     count: vouchers.length,
     data: {
-        vouchers,
+      vouchers,
     },
   });
 });
@@ -19,19 +19,19 @@ exports.getVoucher = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: "Sucess",
     data: {
-        voucher
+      voucher
     },
   });
 });
 
-exports.createVoucher= catchAsync(async (req, res, next) => {
+exports.createVoucher = catchAsync(async (req, res, next) => {
   const transactions = req.body.transactions;
   const payer = req.body.payer;
-  const message = await createVoucherFn(transactions,payer);
+  const message = await createVoucherFn(transactions, payer);
   res.status(201).json({
     status: "Success",
     data: {
-        message,
+      message,
     },
   });
 });

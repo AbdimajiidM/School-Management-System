@@ -37,7 +37,7 @@ const transactionSchema = mongoose.Schema({
         lowercase: true,
         default: 'open'
     },
-    transactionType: {
+    type: {
         type: String,
         lowercase: true,
     }

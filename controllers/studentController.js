@@ -4,7 +4,6 @@ const Class = require("../models/classModel");
 const appError = require("../utils/appError");
 const assignStudentsToClassFn = require("./functions/assignStudentsToClassFn");
 const trashStudentFn = require("./functions/trashStudentFn");
-const AppError = require("../utils/appError");
 const APIFeatures = require("../utils/apiFeatures")
 
 exports.getAllAStudents = catchAsync(async (req, res, next) => {
@@ -25,7 +24,7 @@ exports.getStudent = catchAsync(async (req, res, next) => {
   const student = await Student.findById(req.params.id).populate("class").populate('transactions');
 
   if (!student) {
-    return next(appError("No Student found with that ID", 401))
+    return next(new appError("No Student found with that ID", 401))
   }
   res.status(200).json({
     message: "Sucess",
@@ -66,7 +65,7 @@ exports.deleteStudent = catchAsync(async (req, res, next) => {
   const student = await Student.findByIdAndDelete(req.params.id);
 
   if (!student) {
-    return next(new AppError("No Student found with that ID", 404));
+    return next(new appError("No Student found with that ID", 404));
   }
   res.status(204).json({
     status: "success",
