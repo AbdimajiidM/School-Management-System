@@ -2,6 +2,7 @@ const catchAsync = require("./../utils/catchAsync");
 const appError = require("../utils/appError");
 const Teacher = require("../models/teacherModel");
 const Class = require("../models/classModel");
+const trashStudentFn = require("./functions/trashStudentFn");
 const trashTeacherFn = require("./functions/trashTeacherFn");
 
 exports.getAllTeachers = catchAsync(async (req, res, next) => {

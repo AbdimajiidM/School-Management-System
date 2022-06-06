@@ -1,14 +1,14 @@
-const appError = require("../utils/appError");
+const AppError = require("../utils/appError");
 
 const handleCastErrorDB = err => {
   const message = `Invalid ${err.path}: ${err.value}`;
-  return new appError(message, 400)
+  return new AppError(message, 400)
 }
 
 const handleDuplicateFieldsDB = err => {
   const value = err.keyValue.name || err.keyValue.email;
   const message = `${value} is not availibe, please use an other one`
-  return new appError(message, 400)
+  return new AppError(message, 400)
 }
 
 

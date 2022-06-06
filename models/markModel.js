@@ -12,7 +12,6 @@ const markSchema = mongoose.Schema({
     },
     exam: {
         type: String,
-        lowercase: true,
         required: true,
     },
     student: {

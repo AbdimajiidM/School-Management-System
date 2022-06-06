@@ -3,6 +3,7 @@ const APIFeatures = require("../utils/apiFeatures")
 const Period = require("../models/periodModel");
 const Class = require("../models/classModel")
 const appError = require("../utils/appError");
+const AppError = require("../utils/appError");
 const Day = require("../models/dayModel");
 
 exports.getAllPeriods = catchAsync(async (req, res, next) => {
@@ -111,14 +112,14 @@ exports.getPeriodsByClass = catchAsync(async (req, res, next) => {
 
     // if no class return with error
     if (!classId) {
-        return next(new appError('please tell us the class ID ', 400));
+        return next(new AppError('please tell us the class ID ', 400));
     }
 
     const dbClass = await Class.findById(classId);
 
     // if the ID is not correct ID return error
     if (!dbClass) {
-        return next(new appError('No Class Found with that ID ', 400));
+        return next(new AppError('No Class Found with that ID ', 400));
     }
     // find class periods
     const features = new APIFeatures(Period.find({ class: classId }).populate('class').populate('course').populate('teacher'), req.query).filter().sort().limitFields().paginate()

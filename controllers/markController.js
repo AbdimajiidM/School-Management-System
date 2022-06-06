@@ -44,7 +44,7 @@ exports.createCourseMarks = catchAsync(async (req, res, next) => {
     const examMarks = currentStudent[exam.toLowerCase()]
     const student = await Student.findOne({ studentId: currentStudentId });
     if (!student) {
-      return next(new appError(`No Student Found with ID ${currentStudentId}`, 400))
+      return next(new AppError(`No Student Found with ID ${currentStudentId}`, 400))
     }
     let mark = {
       student: student._id,
@@ -64,8 +64,7 @@ exports.createCourseMarks = catchAsync(async (req, res, next) => {
       ivalidMarks.push({
         mark,
         error: error.message
-      });
-
+      })
     }
 
   }
@@ -73,7 +72,7 @@ exports.createCourseMarks = catchAsync(async (req, res, next) => {
   if (ivalidMarks.length) {
     return res.status(400).json({
       status: 'failed',
-      message: `failed, please check the excel Format`,
+      message: `please check the excel Format`,
       ivalidMarks,
     })
   }
@@ -123,7 +122,7 @@ exports.deleteMark = catchAsync(async (req, res, next) => {
 exports.getStudentMarks = catchAsync(async (req, res, next) => {
 
   let term = req.query.term;
-  if (!term) return next(new appError('please chose the exam term', 400));
+  if (!term) return next(new AppError('please chose the exam term', 400));
 
   let filter = {};
   if (req.params.id) filter = { student: req.params.id };
@@ -149,7 +148,7 @@ exports.getAllStudentsMarks = catchAsync(async (req, res, next) => {
 
   let term = req.query.term;
 
-  if (!term) return next(new appError('exam term is required', 400));
+  if (!term) return next(new AppError('exam term is required', 400));
 
   const students = await Student.find().populate('class');
   const courses = await Course.find();
@@ -170,7 +169,7 @@ exports.getStudentsMarksByClass = catchAsync(async (req, res, next) => {
 
   let term = req.query.term;
 
-  if (!term) return next(new appError('exam term is required', 400));
+  if (!term) return next(new AppError('exam term is required', 400));
 
   const classId = req.params.classId;
   const students = await Student.find({ class: classId }); // classe's students
