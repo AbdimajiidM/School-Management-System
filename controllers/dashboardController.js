@@ -5,19 +5,19 @@ const Teacher = require('../models/teacherModel');
 const catchAsync = require("../utils/catchAsync")
 
 exports.defaultDashboard = catchAsync(async (req, res, next) => {
-  const students = await Student.find();
-  const classes = await Class.find();
-  const teachers = await Teacher.find();
-  const clearStudents = await Student.find({ debit: 0 });
-  const unClearStudents = await Student.find({ debit: { $gt: 0 } })
+  const students = await Student.count();
+  const classes = await Class.count();
+  const teachers = await Teacher.count();
+  const clearStudents = await Student.count({ debit: 0 });
+  const unClearStudents = await Student.count({ debit: { $gt: 0 } })
   res.status(200).json({
     message: "Sucess",
     data: [
-      { label: "Students", value: students.length },
-      { label: "Classess", value: classes.length },
-      { label: "Teachers", value: teachers.length },
-      { label: "Clear Students", value: clearStudents.length },
-      { label: "Unclear Students", value: unClearStudents.length }
+      { label: "Students", value: students },
+      { label: "Classess", value: classes },
+      { label: "Teachers", value: teachers },
+      { label: "Clear Students", value: clearStudents },
+      { label: "Unclear Students", value: unClearStudents }
     ],
   });
 });

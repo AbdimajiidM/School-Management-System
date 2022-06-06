@@ -75,7 +75,8 @@ studentSchema.virtual('credit').get(function () {
 
 // create a virtual property `balance` that's computed from `credit` adn `debit` Accounts
 studentSchema.virtual('balance').get(function () {
-  return this.debit - this.credit;
+  const balance = this.debit - this.credit
+  return balance;
 });
 
 

@@ -194,12 +194,20 @@ exports.postFeeCharges = catchAsync(async (req, res, next) => {
     if (!student.class) {
       continue;
     }
-    const debit = student.monthlyFee * feeCharge.months.length;
-    const balance = student.balance + debit;
+
+    const discount = student.discount ? student.discount : 0;
+    const discountPercentage = discount / 100;
+    // price - (price * discountPercentage)
+    const price = student.monthlyFee * feeCharge.months.length;
+    const fee = price - (price * discountPercentage);
+    const discountDescription = discount ? `(${discount}% discount)` : ''
+    const description = `${feeCharge.description.trim()} ${discountDescription}`
+
+    const balance = student.balance + fee;
 
     const transaction = await Transaction.create({
-      description: feeCharge.description,
-      debit,
+      description,
+      debit: fee,
       student: student._id,
       balance,
       status: "Posted",
