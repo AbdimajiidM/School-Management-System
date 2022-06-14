@@ -8,7 +8,7 @@ exports.getAllStages = catchAsync(async (req, res, next) => {
     message: "Sucess",
     count: stages.length,
     data: {
-        stages,
+      stages,
     },
   });
 });
@@ -18,7 +18,7 @@ exports.getStage = catchAsync(async (req, res, next) => {
   res.status(200).json({
     message: "Sucess",
     data: {
-        stage
+      stage
     },
   });
 });
@@ -28,13 +28,13 @@ exports.createStage = catchAsync(async (req, res, next) => {
   res.status(201).json({
     status: "Success",
     data: {
-        createdStage,
+      createdStage,
     },
   });
 });
 
 exports.updateStage = catchAsync(async (req, res, next) => {
-  
+
   const stage = await Stage.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     // runValidators: true,

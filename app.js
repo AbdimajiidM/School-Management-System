@@ -1,6 +1,9 @@
 const express = require('express');
 const morgan = require('morgan');
 const AppError = require('./utils/appError')
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
+const xss = require("xss-clean")
 
 const globalErrorHandler = require('./controllers/errorController')
 
@@ -19,17 +22,28 @@ const classGroupRoutes = require("./routes/classGroupRoutes");
 const feeChargeRoutes = require("./routes/feeChargeRoutes");
 const examChargeRoutes = require("./routes/examChargeRoutes")
 const dashboardRoutes = require("./routes/dashboardRoutes");
+const companyInfoRoutes = require("./routes/companyInfoRoutes")
+
 
 const app = express();
 
 // 1) MIDDLEWARES
 
+// Set security HTTP Headers
+app.use(helmet())
+
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 
+
+// Data sanitization against NoSQl query injection
+app.use(mongoSanitize());
+
+// Data sanitization agins xss
+app.use(xss())
 
 // 3) ROUTES
 app.use('/api/v1/students', studentRouter);
@@ -47,6 +61,8 @@ app.use('/api/v1/classGroups', classGroupRoutes);
 app.use("/api/v1/feeCharges", feeChargeRoutes);
 app.use("/api/v1/examCharges", examChargeRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes)
+app.use('/api/v1/companyInfo', companyInfoRoutes)
+
 
 app.all('*', (req, res, next) => {
   next(new AppError(`cant't found ${req.originalUrl} on this server`, 404));
